@@ -5,7 +5,15 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.TELEGRAM_BOT_TOKEN || 'YOUR_BOT_TOKEN';
 
 // Create a bot instance
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(token, {
+    polling: {
+        interval: 300,
+        autoStart: true,
+        params: {
+            timeout: 10
+        }
+    }
+});
 
 // Forbidden words that will trigger user removal
 const forbiddenWords = ['wts', '#wts', 'wtb', '#wtb'];
