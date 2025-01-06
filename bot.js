@@ -7,22 +7,24 @@ const app = express();
 app.use(express.json());
 
 // Bot configuration
-const token = process.env.TELEGRAM_BOT_TOKEN;
-const url = process.env.APP_URL; // Your Render deployment URL
-const bot = new TelegramBot(token, { webHook: { port: process.env.PORT || 3000 } });
+const token = process.env.BOT_TOKEN;
+const url = process.env.VERCEL_URL; // Your Vercel deployment URL
 
-// Set webhook path
-const path = `/webhook/${token}`;
+async function setWebhook() {
+  const bot = new TelegramBot(token);
+  try {
+    const webhookUrl = `https://${url}/api/webhook`;
+    await bot.setWebHook(webhookUrl);
+    console.log('Webhook set successfully to:', webhookUrl);
+  } catch (error) {
+    console.error('Failed to set webhook:', error);
+  }
+}
 
-// Set up webhook
-bot.setWebHook(`${url}${path}`).then(() => {
-  console.log('Webhook set successfully');
-}).catch((err) => {
-  console.error('Failed to set webhook:', err);
-});
+setWebhook();
 
 // Handle webhook requests
-app.post(path, (req, res) => {
+app.post('/api/webhook', (req, res) => {
   bot.handleUpdate(req.body);
   res.sendStatus(200);
 });
