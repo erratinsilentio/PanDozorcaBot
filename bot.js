@@ -15,6 +15,14 @@ const bot = new TelegramBot(token, {
     }
 });
 
+bot.on('polling_error', (error) => {
+    console.log("Polling error: ", error);
+    // Próbuj ponownie uruchomić polling po błędzie
+    setTimeout(() => {
+        bot.startPolling({restart: true});
+    }, 5000);
+});
+
 // Forbidden words that will trigger user removal
 const forbiddenWords = ['wts', '#wts', 'wtb', '#wtb'];
 
