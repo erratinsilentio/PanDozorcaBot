@@ -2,7 +2,7 @@ require('dotenv').config();
 const TelegramBot = require('node-telegram-bot-api');
 
 const token = process.env.BOT_TOKEN;
-const url = process.env.VERCEL_URL; // Your Vercel deployment URL
+const url = process.env.VERCEL_URL;
 
 async function setWebhook() {
   const bot = new TelegramBot(token);
