@@ -7,6 +7,34 @@ const bot = new TelegramBot(token);
 // Forbidden words that will trigger user removal
 const forbiddenWords = ['wts', '#wts', 'wtb', '#wtb'];
 
+// Sending a message with a reply keyboard
+bot.onText(/\/start/, (msg) => {
+  const chatId = msg.chat.id;
+
+  const options = {
+    reply_markup: {
+      keyboard: [
+        ['Button 1', 'Button 2'],
+        ['Button 3', 'Button 4']
+      ],
+      resize_keyboard: true,  // Adjust the size of the buttons to fit screen
+      one_time_keyboard: true  // Hide the keyboard after pressing a button
+    }
+  };
+
+  bot.sendMessage(chatId, 'Choose an option:', options);
+});
+
+// Handling text message when a button is pressed
+bot.on('message', (msg) => {
+  const chatId = msg.chat.id;
+
+  if (msg.text === 'Button 1') {
+    bot.sendMessage(chatId, 'You pressed Button 1');
+  } else if (msg.text === 'Button 2') {
+    bot.sendMessage(chatId, 'You pressed Button 2');
+  }
+});
 
 // Your bot logic
 const handleMessage = async (msg) => {
