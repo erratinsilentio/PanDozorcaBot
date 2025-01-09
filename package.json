@@ -1,10 +1,9 @@
 {
-  "name": "pandozorcabot",
+  "name": "telegram-bot",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "dotenv": "^16.4.7",
-    "node-telegram-bot-api": "^0.61.0"
+    "grammy": "^1.8.3"
   },
   "engines": {
     "node": ">=14.0.0"
