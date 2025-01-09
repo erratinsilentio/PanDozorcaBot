@@ -42,6 +42,26 @@ const handleMessage = async (message) => {
   }
 };
 
+const checkInactiveUsers = async (chatId) => {
+  try {
+    const members = await bot.getChatAdministrators(chatId);
+    const now = Date.now();
+
+    for (const member of members) {
+      const user = member.user;
+      const lastActive = user.last_active_date ? new Date(user.last_active_date * 1000) : null;
+
+      if (lastActive && (now - lastActive.getTime()) > 31 * 24 * 60 * 60 * 1000) {
+        await bot.banChatMember(chatId, user.id);
+        await bot.unbanChatMember(chatId, user.id);
+        await bot.sendMessage(chatId, `User ${user.username || user.first_name} has been removed for being inactive for over 31 days.`);
+      }
+    }
+  } catch (error) {
+    console.error('Error checking inactive users:', error);
+  }
+};
+
 module.exports = async (request, response) => {
   try {
     if (request.method === 'POST') {
@@ -49,6 +69,7 @@ module.exports = async (request, response) => {
       
       if (message) {
         await handleMessage(message);
+        await checkInactiveUsers(message.chat.id);
       }
       
       return response.status(200).json({ ok: true });
