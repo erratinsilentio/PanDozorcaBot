@@ -7,7 +7,7 @@ if (!process.env.BOT_TOKEN) {
 const bot = new TelegramBot(process.env.BOT_TOKEN);
 
 // Forbidden words list
-const FORBIDDEN_WORDS = ['wts', 'wtb', '#wts', '#wtb', 'Wts', 'Wtb', '#Wts', '#Wtb'];
+const FORBIDDEN_WORDS = ['wts', 'wtb', '#wts', '#wtb', 'Wts', 'Wtb', '#Wts', '#Wtb', 'wtt', 'Wtt', '#wtt', '#Wtt'];
 
 const handleMessage = async (message) => {
   try {
@@ -24,13 +24,13 @@ const handleMessage = async (message) => {
       // Delete the message
       await bot.deleteMessage(chatId, message.message_id);
       // Notify about the ban
-      await bot.sendMessage(chatId, `User ${message.from.username || message.from.first_name} has been removed for using prohibited words.`);
+      await bot.sendMessage(chatId, `User ${message.from.username || message.from.first_name} wypierdala z grupy za nielegalny handel. To Wilkowyje, tu handluje tylko Pan Wilczek. Porządek musi być!`);
       return;
     }
 
     // Handle /halo command
     if (text === '/halo') {
-      await bot.sendMessage(chatId, 'halo?');
+      await bot.sendMessage(chatId, 'Zostałem zaprogramowany do pilnowania porządku w Wilkowyjach. To wymagająca ale satysfakcjonująca praca. Osobiście dopilnuję by zakaz handlu był przestrzegany przez każdego członka stada.');
     }
   } catch (error) {
     console.error('Error handling message:', error);
