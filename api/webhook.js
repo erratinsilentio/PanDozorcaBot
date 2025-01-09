@@ -35,7 +35,7 @@ const handleMessage = async (message) => {
 
     // Handle /halo command
     if (text === '/halo') {
-      await bot.sendMessage(chatId, 'halo?', {
+      await bot.sendMessage(chatId, 'Zostałem zaprogramowany do pilnowania porządku w Wilkowyjach. To wymagająca ale satysfakcjonująca praca. Osobiście dopilnuję by zakaz handlu był przestrzegany przez każdego członka stada.', {
         message_thread_id: messageThreadId
       });
     }
