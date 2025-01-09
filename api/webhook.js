@@ -167,24 +167,32 @@ setInterval(async () => {
 module.exports = async (request, response) => {
   try {
     if (request.method === 'POST') {
+      console.log('Bot token:', process.env.BOT_TOKEN); // Will be hidden in logs but helps verify it exists
+      console.log('Received webhook:', request.body);
+      
       const { message } = request.body;
       
       if (message) {
+        console.log('Sending halo response to chat:', message.chat.id);
         await handleMessage(message);
+        console.log('Response sent successfully');
       }
       
       return response.status(200).json({ ok: true });
     }
 
+    // Handle GET requests
     return response.status(200).json({ 
       status: 'active',
       timestamp: new Date().toISOString(),
-      hasToken: !!process.env.BOT_TOKEN,
-      activeUsers: storage.userActivity.size
+      hasToken: !!process.env.BOT_TOKEN // Will show if token exists
     });
     
   } catch (error) {
     console.error('Error in webhook handler:', error);
-    return response.status(500).json({ error: error.message });
+    return response.status(500).json({ 
+      error: error.message,
+      hasToken: !!process.env.BOT_TOKEN // Will show if token exists
+    });
   }
 };
